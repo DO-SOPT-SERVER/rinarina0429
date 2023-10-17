@@ -1,11 +1,13 @@
 package org.sopt.www.firstspringboot.dto;
 
 import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.springframework.http.HttpStatus;
 
 @Getter
+@AllArgsConstructor(access = AccessLevel.PRIVATE)
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class CustomResponse<T> {
     private int code;
@@ -26,12 +28,5 @@ public class CustomResponse<T> {
     // 에러
     public static CustomResponse<?> error(HttpStatus status, String message) {
         return new CustomResponse<>(status.value(), status.getReasonPhrase(), false, message);
-    }
-
-    private CustomResponse (int code, String status, boolean success, T data) {
-        this.code = code;
-        this.status = status;
-        this.success = success;
-        this.data = data;
     }
 }
