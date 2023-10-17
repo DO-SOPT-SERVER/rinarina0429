@@ -3,6 +3,7 @@ package org.sopt.www.firstspringboot.controller;
 import org.sopt.www.firstspringboot.dto.CustomResponse;
 import org.sopt.www.firstspringboot.dto.HealthCheckResponse;
 import org.sopt.www.firstspringboot.sample.Person;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -52,16 +53,16 @@ public class HealthCheckController {
     // [심화과제] 만든 응답객체 활용 (v6~v8)
     @GetMapping("/v6")
     public CustomResponse<?> healthCheckV6(){
-        return CustomResponse.ok();
+        return CustomResponse.ok(HttpStatus.OK);
     }
 
     @GetMapping("/v7")
     public CustomResponse<HealthCheckResponse> healthCheckV7(){
-        return CustomResponse.okData(new HealthCheckResponse());
+        return CustomResponse.okData(HttpStatus.OK, new HealthCheckResponse());
     }
 
     @GetMapping("/v8")
     public CustomResponse<?> healthCheckV8(){
-        return CustomResponse.error("error");
+        return CustomResponse.error(HttpStatus.BAD_REQUEST,"error");
     }
 }

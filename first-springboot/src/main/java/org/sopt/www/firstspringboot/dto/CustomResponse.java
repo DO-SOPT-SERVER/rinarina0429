@@ -9,26 +9,26 @@ import org.springframework.http.HttpStatus;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class CustomResponse<T> {
     private int code;
-    private HttpStatus status;
+    private String status;
     private boolean success;
     private T data;
 
     // 성공(데이터 없음)
-    public static CustomResponse<?> ok() {
-        return new CustomResponse<>(HttpStatus.OK.value(), HttpStatus.OK, true, null);
+    public static CustomResponse<?> ok(HttpStatus status) {
+        return new CustomResponse<>(status.value(), status.getReasonPhrase(), true, null);
     }
 
     // 성공(데이터 있음)
-    public static <T> CustomResponse<T> okData(T data) {
-        return new CustomResponse<>(HttpStatus.OK.value(), HttpStatus.OK, true, data);
+    public static <T> CustomResponse<T> okData(HttpStatus status, T data) {
+        return new CustomResponse<>(status.value(), status.getReasonPhrase(), true, data);
     }
 
-    // 서버가 요청을 이해할 수 없을 때 (ex. 올바르지 않은 데이터 형식)
-    public static CustomResponse<?> error(String message) {
-        return new CustomResponse<>(HttpStatus.BAD_REQUEST.value(), HttpStatus.BAD_REQUEST, false, message);
+    // 에러
+    public static CustomResponse<?> error(HttpStatus status, String message) {
+        return new CustomResponse<>(status.value(), status.getReasonPhrase(), false, message);
     }
 
-    private CustomResponse (int code, HttpStatus status, boolean success, T data) {
+    private CustomResponse (int code, String status, boolean success, T data) {
         this.code = code;
         this.status = status;
         this.success = success;
