@@ -4,7 +4,7 @@ import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.springframework.http.HttpStatus;
+import org.sopt.www.firstspringboot.type.Type;
 
 @Getter
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
@@ -15,18 +15,13 @@ public class CustomResponse<T> {
     private boolean success;
     private T data;
 
-    // 성공(데이터 없음)
-    public static CustomResponse<?> ok(HttpStatus status) {
-        return new CustomResponse<>(status.value(), status.getReasonPhrase(), true, null);
+    // 데이터 없음
+    public static CustomResponse<?> blank(Type type) {
+        return new CustomResponse<>(type.getCode(), type.getStatus(), type.isSuccess(), null);
     }
 
-    // 성공(데이터 있음)
-    public static <T> CustomResponse<T> okData(HttpStatus status, T data) {
-        return new CustomResponse<>(status.value(), status.getReasonPhrase(), true, data);
-    }
-
-    // 에러
-    public static CustomResponse<?> error(HttpStatus status, String message) {
-        return new CustomResponse<>(status.value(), status.getReasonPhrase(), false, message);
+    // 데이터 있음
+    public static <T> CustomResponse<T> data(Type type, T data) {
+        return new CustomResponse<>(type.getCode(), type.getStatus(), type.isSuccess(), data);
     }
 }
