@@ -16,12 +16,12 @@ public class CustomResponse<T> {
     private T data;
 
     // 데이터 없음
-    public static CustomResponse<?> blank(Type type) {
+    public static CustomResponse<?> noData(Type type) {
         return new CustomResponse<>(type.getCode(), type.getStatus(), type.isSuccess(), null);
     }
 
     // 데이터 있음
-    public static <T> CustomResponse<T> data(Type type, T data) {
+    public static <T> CustomResponse<T> hasData(Type type, T data) {
         return new CustomResponse<>(type.getCode(), type.getStatus(), type.isSuccess(), data);
     }
 }

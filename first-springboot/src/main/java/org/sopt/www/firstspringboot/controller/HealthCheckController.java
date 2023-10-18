@@ -54,16 +54,16 @@ public class HealthCheckController {
     // [심화과제] 만든 응답객체 활용 (v6~v8)
     @GetMapping("/v6")
     public CustomResponse<?> healthCheckV6(){
-        return CustomResponse.blank(Type.OK);
+        return CustomResponse.noData(Type.OK);
     }
 
     @GetMapping("/v7")
     public CustomResponse<?> healthCheckV7(){
-        return CustomResponse.blank(Type.BAD_REQUEST);
+        return CustomResponse.noData(Type.BAD_REQUEST);
     }
 
     @GetMapping("/v8")
     public CustomResponse<HealthCheckResponse> healthCheckV8(){
-        return CustomResponse.data(Type.OK, new HealthCheckResponse());
+        return CustomResponse.hasData(Type.OK, new HealthCheckResponse());
     }
 }
