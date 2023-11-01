@@ -1,10 +1,13 @@
 package org.sopt.www.firstspringboot.service;
-
+// 비즈니스 로직을 다루고, 특히 데이터베이스 Transaction과 관련된 처리를 담당하는 계층
+// Repository 계층에 의존하여 데이터를 받아오고,
+// 도메인 계층과의 의존을 통해 데이터를 가공하는 역할도 진행
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.sopt.www.firstspringboot.dto.request.*;
 import org.sopt.www.firstspringboot.dto.response.*;
 import org.sopt.www.firstspringboot.entity.Member;
+import org.sopt.www.firstspringboot.entity.SOPT;
 import org.sopt.www.firstspringboot.repository.MemberJpaRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -35,15 +38,15 @@ public class MemberService {
 
     // MemberJpaRepository 에서 findByIdOrThrow 구현하는 것 말고
     // Service 내부에 private 메소드 만드는 방법
-    public MemberGetResponse getMemberByIdV4(Long memberId){
-        return MemberGetResponse.of(findById(memberId));
-    }
+    // public MemberGetResponse getMemberByIdV4(Long memberId){
+    //    return MemberGetResponse.of(findById(memberId));
+    // }
 
-    private Member findById(Long memberId){
-        return memberJpaRepository.findById(memberId).orElseThrow(
-                () -> new EntityNotFoundException("해당하는 회원이 없습니다.")
-        );
-    }
+    // private Member findById(Long memberId){
+    // return memberJpaRepository.findById(memberId).orElseThrow(
+    //             () -> new EntityNotFoundException("해당하는 회원이 없습니다.")
+    //     );
+    // }
 
     public List<MemberGetResponse> getMembers(){
         return memberJpaRepository.findAll()
@@ -64,6 +67,16 @@ public class MemberService {
     }
 
     //update
+    @Transactional
+    public void updateSOPT(Long memberId, MemberProfileUpdateRequest request){
+        Member member = memberJpaRepository.findByIdOrThrow(memberId);
+        member.updateSOPT(new SOPT(request.getGeneration(), request.getPart()));
+    }
 
     //delete
+    @Transactional
+    public void deleteMember(Long memberId){
+        Member member = memberJpaRepository.findByIdOrThrow(memberId);
+        memberJpaRepository.delete(member);
+    }
 }

@@ -15,6 +15,6 @@ import lombok.NoArgsConstructor;
 public class SOPT {
     private int generation;
 
-    @Enumerated(value = EnumType.STRING)
+    @Enumerated(value = EnumType.STRING) // 이걸 붙여줘야 Part의 변수명으로 저장
     private Part part;
 }
