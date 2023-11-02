@@ -1,12 +1,11 @@
 package org.sopt.www.firstspringboot.dto.request;
 
-import lombok.Data;
 import org.sopt.www.firstspringboot.entity.SOPT;
 
-@Data
-public class MemberCreateRequest {
-    private String name;
-    private String nickname;
-    private int age;
-    private SOPT sopt;
-}
+// @Data: record 사용하면 이 annotation 굳이 필요 x
+public record MemberCreateRequest(
+        String name,
+        String nickname,
+        int age,
+        SOPT sopt
+) {}

@@ -20,7 +20,7 @@ import java.util.stream.Collectors;
 @Transactional(readOnly = true)
 public class MemberService {
 
-    private final MemberJpaRepository memberJpaRepository;
+    private final MemberJpaRepository memberJpaRepository; // 의존성 주입
 
     public MemberGetResponse getMemberByIdV1(Long id){
         Member member = memberJpaRepository.findById(id).get();
