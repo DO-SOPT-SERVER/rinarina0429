@@ -58,10 +58,10 @@ public class MemberService {
     @Transactional
     public String create(MemberCreateRequest request){
         Member member = memberJpaRepository.save(Member.builder()
-                .name(request.getName())
-                .nickname(request.getNickname())
-                .age(request.getAge())
-                .sopt(request.getSopt())
+                .name(request.name())
+                .nickname(request.nickname())
+                .age(request.age())
+                .sopt(request.sopt())
                 .build());
         return member.getId().toString();
     }
@@ -70,7 +70,7 @@ public class MemberService {
     @Transactional
     public void updateSOPT(Long memberId, MemberProfileUpdateRequest request){
         Member member = memberJpaRepository.findByIdOrThrow(memberId);
-        member.updateSOPT(new SOPT(request.getGeneration(), request.getPart()));
+        member.updateSOPT(new SOPT(request.generation(), request.part()));
     }
 
     //delete
