@@ -1,6 +1,4 @@
-package org.sopt.www.firstspringboot.dto;
-
-import org.sopt.www.firstspringboot.type.Type;
+package org.sopt.www.firstspringboot.dto.common;
 
 public record CustomResponse<T>(
         int code,
