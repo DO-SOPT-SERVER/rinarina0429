@@ -3,8 +3,13 @@ package org.sopt.www.firstspringboot.dto.response;
 import org.sopt.www.firstspringboot.entity.Member;
 import org.sopt.www.firstspringboot.entity.SOPT;
 
+import java.time.LocalDateTime;
+
 public record MemberGetResponse (
+        Long id,
         String name,
+        LocalDateTime CreatedAt,
+        LocalDateTime UpdatedAt,
         String nickname,
         int age,
         SOPT soptInfo
@@ -14,7 +19,10 @@ public record MemberGetResponse (
     // 팩토리 메서드의 파라미터로 넘어온 값들을 검증하여 인스턴스를 생성할 때 사용
     public static MemberGetResponse of(Member member){
         return new MemberGetResponse(
+                member.getId(),
                 member.getName(),
+                member.getCreatedAt(),
+                member.getUpdatedAt(),
                 member.getNickname(),
                 member.getAge(),
                 member.getSopt()

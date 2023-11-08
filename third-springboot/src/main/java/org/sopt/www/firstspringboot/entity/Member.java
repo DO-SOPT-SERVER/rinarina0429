@@ -10,7 +10,8 @@ import org.springframework.data.jpa.repository.Modifying;
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class Member {
+@Table(name = "MEMBER")
+public class Member extends BaseTimeEntity {
 
     @Id // 해당 field가 식별자(@Entity 가 붙은 클래스에는 반드시 선언)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
