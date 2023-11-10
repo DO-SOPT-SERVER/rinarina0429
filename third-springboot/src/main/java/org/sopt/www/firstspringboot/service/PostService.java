@@ -5,6 +5,7 @@ import lombok.RequiredArgsConstructor;
 import org.sopt.www.firstspringboot.dto.request.PostCreateRequest;
 import org.sopt.www.firstspringboot.dto.request.PostUpdateRequest;
 import org.sopt.www.firstspringboot.dto.response.PostGetResponse;
+import org.sopt.www.firstspringboot.entity.Category;
 import org.sopt.www.firstspringboot.entity.Member;
 import org.sopt.www.firstspringboot.entity.Post;
 import org.sopt.www.firstspringboot.repository.MemberJpaRepository;
@@ -21,6 +22,7 @@ public class PostService {
 
     private final PostJpaRepository postJpaRepository;
     private final MemberJpaRepository memberJpaRepository;
+    private final CategoryService categoryService;
 
     @Transactional
     public String create(PostCreateRequest request, Long memberId) {
@@ -38,13 +40,13 @@ public class PostService {
     public List<PostGetResponse> getPosts(Long memberId){
         return postJpaRepository.findAllByMemberId(memberId)
                 .stream()
-                .map(post -> PostGetResponse.of(post))
+                .map(post -> PostGetResponse.of(post, getCategoryByPost(post)))
                 .toList();
     }
 
     public PostGetResponse getById(Long postId){
         Post post = postJpaRepository.findById(postId).orElseThrow(() -> new EntityNotFoundException("해당하는 게시글이 없습니다."));
-        return PostGetResponse.of(post);
+        return PostGetResponse.of(post, getCategoryByPost(post));
     }
 
     @Transactional
@@ -57,5 +59,9 @@ public class PostService {
     public void deleteById(Long postId){
         Post post = postJpaRepository.findByIdOrThrow(postId);
         postJpaRepository.delete(post);
+    }
+
+    private Category getCategoryByPost(Post post){
+        return categoryService.getByCategoryId((post.getCategoryId()));
     }
 }

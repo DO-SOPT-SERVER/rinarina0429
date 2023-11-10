@@ -14,20 +14,23 @@ public class Post extends BaseTimeEntity {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long postId;
-    private String title;
 
-    @Column(columnDefinition = "TEXT")
+    private String title;
     private String content;
 
     @ManyToOne(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
     @JoinColumn(name = "member_id")
     private Member member;
 
+    @Column(name = "category_id")
+    private CategoryId categoryId;
+
     @Builder
-    public Post(String title, String content, Member member) {
+    public Post(String title, String content, Member member, CategoryId categoryId) {
         this.title = title;
         this.content = content;
         this.member = member;
+        this.categoryId = categoryId;
     }
 
     public void updateContent(String content){
