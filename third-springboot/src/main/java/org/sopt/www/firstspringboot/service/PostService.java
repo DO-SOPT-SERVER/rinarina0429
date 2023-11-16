@@ -36,13 +36,12 @@ public class PostService {
     }
     @Transactional
     public void editContent(Long postId, PostUpdateRequest request) {
-        Post post = postJpaRepository.findById(postId)
-                .orElseThrow(() -> new EntityNotFoundException("해당하는 게시글이 없습니다."));
+        Post post = postJpaRepository.findByIdOrThrow(postId);
         post.updateContent(request.content());
     }
     @Transactional
     public void deleteById(Long postId) {
-        Post post = postJpaRepository.findById(postId).orElseThrow(() -> new EntityNotFoundException("해당하는 게시글이 없습니다."));
+        Post post = postJpaRepository.findByIdOrThrow(postId);
         postJpaRepository.delete(post);
     }
     public List<PostGetResponse> getPosts(Long memberId) {
@@ -52,7 +51,7 @@ public class PostService {
                 .toList();
     }
     public PostGetResponse getById(Long postId) {
-        Post post = postJpaRepository.findById(postId).orElseThrow(() -> new EntityNotFoundException("해당하는 게시글이 없습니다."));
+        Post post = postJpaRepository.findByIdOrThrow(postId);
         return PostGetResponse.of(post, getCategoryByPost(post));
     }
 

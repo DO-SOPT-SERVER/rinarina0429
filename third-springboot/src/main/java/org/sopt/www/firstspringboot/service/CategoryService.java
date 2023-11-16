@@ -15,11 +15,9 @@ import org.springframework.transaction.annotation.Transactional;
 public class CategoryService {
     private final CategoryJpaRepository categoryJpaRepository;
     public Category getByCategoryId(CategoryId categoryId) {
-        return categoryJpaRepository.findById(Short.valueOf(categoryId.getCategoryId())).orElseThrow(
-                () -> new EntityNotFoundException("해당하는 카테고리가 없습니다."));
+        return categoryJpaRepository.findByIdOrThrow(Short.valueOf(categoryId.getCategoryId()));
     }
     public CategoryResponse getById(Short id) {
-        return CategoryResponse.of(categoryJpaRepository.findById(id).orElseThrow(
-                () -> new EntityNotFoundException("해당하는 카테고리가 없습니다.")));
+        return CategoryResponse.of(categoryJpaRepository.findByIdOrThrow(id));
     }
 }
