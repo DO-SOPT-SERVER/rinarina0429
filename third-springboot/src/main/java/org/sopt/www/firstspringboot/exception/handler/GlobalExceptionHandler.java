@@ -1,5 +1,6 @@
-package org.sopt.www.firstspringboot.exception;
+package org.sopt.www.firstspringboot.exception.handler;
 
+import org.sopt.www.firstspringboot.exception.model.BusinessException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
