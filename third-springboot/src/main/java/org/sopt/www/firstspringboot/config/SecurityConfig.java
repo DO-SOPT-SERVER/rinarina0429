@@ -19,6 +19,7 @@ public class SecurityConfig {
                 .anyRequest().permitAll()
                 .and().build();
     }
+
     @Bean
     public WebMvcConfigurer corsConfigurer() {
         return new WebMvcConfigurer() {

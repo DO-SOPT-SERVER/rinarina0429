@@ -8,4 +8,5 @@ public record MemberCreateRequest(
         String nickname,
         int age,
         SOPT sopt
-) {}
+) {
+}

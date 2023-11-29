@@ -11,7 +11,8 @@ import lombok.NoArgsConstructor;
 @Getter
 @Table(name = "post")
 public class Post extends BaseTimeEntity {
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long postId;
 
     private String title;
@@ -35,7 +36,7 @@ public class Post extends BaseTimeEntity {
         this.categoryId = categoryId;
     }
 
-    public void updateContent(String content){
+    public void updateContent(String content) {
         this.content = content;
     }
 }

@@ -1,6 +1,5 @@
 package org.sopt.www.firstspringboot.service;
 
-import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.sopt.www.firstspringboot.dto.request.PostCreateRequest;
 import org.sopt.www.firstspringboot.dto.request.PostUpdateRequest;
@@ -34,22 +33,26 @@ public class PostService {
                         .content(request.content()).build());
         return post.getPostId().toString();
     }
+
     @Transactional
     public void editContent(Long postId, PostUpdateRequest request) {
         Post post = postJpaRepository.findByIdOrThrow(postId);
         post.updateContent(request.content());
     }
+
     @Transactional
     public void deleteById(Long postId) {
         Post post = postJpaRepository.findByIdOrThrow(postId);
         postJpaRepository.delete(post);
     }
+
     public List<PostGetResponse> getPosts(Long memberId) {
         return postJpaRepository.findAllByMemberId(memberId)
                 .stream()
                 .map(post -> PostGetResponse.of(post, getCategoryByPost(post)))
                 .toList();
     }
+
     public PostGetResponse getById(Long postId) {
         Post post = postJpaRepository.findByIdOrThrow(postId);
         return PostGetResponse.of(post, getCategoryByPost(post));

@@ -9,9 +9,10 @@ import java.util.List;
 
 public interface PostJpaRepository extends JpaRepository<Post, Long> {
     List<Post> findAllByMemberId(Long memberId);
+
     List<Post> findAllByMember(Member member);
 
-    default Post findByIdOrThrow(Long id){
+    default Post findByIdOrThrow(Long id) {
         return findById(id).orElseThrow(
                 () -> new EntityNotFoundException("해당하는 게시글이 없습니다."));
     }
