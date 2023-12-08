@@ -39,7 +39,7 @@ public class Post extends BaseTimeEntity {
     }
 
     @Builder(builderMethodName = "builderWithImageUrl")
-    public Post(String title, String content, String imageUrl, Member member, CategoryId categoryId){
+    public Post(String title, String content, String imageUrl, Member member, CategoryId categoryId) {
         this.title = title;
         this.content = content;
         this.imageUrl = imageUrl;
@@ -51,5 +51,7 @@ public class Post extends BaseTimeEntity {
         this.content = content;
     }
 
-    public void addCategory(CategoryId categoryId){ this.categoryId = categoryId; }
+    public void addCategory(CategoryId categoryId) {
+        this.categoryId = categoryId;
+    }
 }

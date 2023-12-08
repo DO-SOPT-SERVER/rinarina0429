@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class CustomJwtAuthenticationEntryPoint implements AuthenticationEntryPoint {
     @Override
-    public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException authException)  {
+    public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException authException) {
         setResponse(response);
     }
 

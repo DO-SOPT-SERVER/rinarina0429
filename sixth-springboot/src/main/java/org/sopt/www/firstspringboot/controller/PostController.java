@@ -31,7 +31,7 @@ public class PostController {
         return CustomResponse.hasData(Type.GET_POST_LIST_SUCCESS, postService.getPosts(memberId));
     }
 
-//    @PostMapping
+    //    @PostMapping
 //    public CustomResponse<PostGetResponse> createPost(@RequestHeader(CUSTOM_AUTH_ID) Long memberId, @RequestBody PostCreateRequest request) {
 //        String stringId = postService.create(request, memberId);
 //        URI location = URI.create(stringId);

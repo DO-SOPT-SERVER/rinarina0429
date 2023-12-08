@@ -4,13 +4,13 @@ import lombok.RequiredArgsConstructor;
 import org.sopt.www.firstspringboot.dto.request.PostCreateRequest;
 import org.sopt.www.firstspringboot.entity.Member;
 import org.sopt.www.firstspringboot.entity.Post;
+import org.sopt.www.firstspringboot.exception.model.BusinessException;
 import org.sopt.www.firstspringboot.external.S3Service;
 import org.sopt.www.firstspringboot.repository.MemberJpaRepository;
 import org.sopt.www.firstspringboot.repository.PostJpaRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
-import org.sopt.www.firstspringboot.exception.model.BusinessException;
 
 import java.io.IOException;
 
