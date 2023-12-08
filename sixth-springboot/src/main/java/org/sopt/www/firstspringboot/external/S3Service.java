@@ -1,5 +1,8 @@
 package org.sopt.www.firstspringboot.external;
 
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.sopt.www.firstspringboot.config.AWSConfig;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
@@ -8,19 +11,24 @@ import software.amazon.awssdk.core.sync.RequestBody;
 import software.amazon.awssdk.services.s3.S3Client;
 import software.amazon.awssdk.services.s3.model.DeleteObjectRequest;
 import software.amazon.awssdk.services.s3.model.PutObjectRequest;
+import software.amazon.awssdk.services.s3.presigner.S3Presigner;
+import software.amazon.awssdk.services.s3.presigner.model.PutObjectPresignRequest;
+import org.sopt.www.firstspringboot.entity.PresignedUrlVO;
 
 import java.io.IOException;
+import java.time.Duration;
 import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
 
 @Component
 public class S3Service {
-
     private final String bucketName;
     private final AWSConfig awsConfig;
     private static final List<String> IMAGE_EXTENSIONS = Arrays.asList("image/jpeg", "image/png", "image/jpg", "image/webp");
     private static final Long MAX_FILE_SIZE = 5 * 1024 * 1024L;
+    // 만료시간 1분
+    private static final Long PRE_SIGNED_URL_EXPIRE_MINUTE = 1L;
 
     public S3Service(@Value("${aws-property.s3-bucket-name}") final String bucketName, AWSConfig awsConfig) {
         this.bucketName = bucketName;
@@ -70,5 +78,26 @@ public class S3Service {
         if (image.getSize() > MAX_FILE_SIZE) {
             throw new RuntimeException("이미지 사이즈는 5MB를 넘을 수 없습니다.");
         }
+    }
+
+    public PresignedUrlVO getUploadPreSignedUrl(final String prefix) {
+        final String fileName = generateImageFileName();
+        final String key = prefix + fileName;
+
+        S3Presigner preSigner = awsConfig.getS3Presigner();
+
+        PutObjectRequest putObjectRequest = PutObjectRequest.builder()
+                .bucket(bucketName)
+                .key(key)
+                .build();
+
+        PutObjectPresignRequest preSignedUrlRequest = PutObjectPresignRequest.builder()
+                .signatureDuration(Duration.ofMinutes(PRE_SIGNED_URL_EXPIRE_MINUTE))
+                .putObjectRequest(putObjectRequest)
+                .build();
+
+        String url = preSigner.presignPutObject(preSignedUrlRequest).url().toString();
+
+        return PresignedUrlVO.of(fileName, url);
     }
 }
