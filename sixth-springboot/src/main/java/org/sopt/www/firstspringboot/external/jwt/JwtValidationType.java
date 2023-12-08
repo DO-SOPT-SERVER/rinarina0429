@@ -1,4 +1,4 @@
-package org.sopt.www.firstspringboot.jwt;
+package org.sopt.www.firstspringboot.external.jwt;
 
 public enum JwtValidationType {
     VALID_JWT,              // 유효한 JWT

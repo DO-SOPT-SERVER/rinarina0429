@@ -1,4 +1,4 @@
-package org.sopt.www.firstspringboot.jwt;
+package org.sopt.www.firstspringboot.external.jwt;
 
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;

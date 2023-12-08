@@ -1,9 +1,9 @@
 package org.sopt.www.firstspringboot.config;
 
 import lombok.RequiredArgsConstructor;
-import org.sopt.www.firstspringboot.jwt.CustomAccessDeniedHandler;
-import org.sopt.www.firstspringboot.jwt.CustomJwtAuthenticationEntryPoint;
-import org.sopt.www.firstspringboot.jwt.JwtAuthenticationFilter;
+import org.sopt.www.firstspringboot.security.CustomAccessDeniedHandler;
+import org.sopt.www.firstspringboot.security.CustomJwtAuthenticationEntryPoint;
+import org.sopt.www.firstspringboot.security.JwtAuthenticationFilter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;

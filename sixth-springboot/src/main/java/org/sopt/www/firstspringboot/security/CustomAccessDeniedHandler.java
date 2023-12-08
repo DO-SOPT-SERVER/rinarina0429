@@ -1,4 +1,4 @@
-package org.sopt.www.firstspringboot.jwt;
+package org.sopt.www.firstspringboot.security;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
