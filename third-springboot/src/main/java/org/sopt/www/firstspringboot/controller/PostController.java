@@ -1,11 +1,12 @@
 package org.sopt.www.firstspringboot.controller;
 
 import lombok.RequiredArgsConstructor;
+import org.sopt.www.firstspringboot.dto.common.CustomResponse;
+import org.sopt.www.firstspringboot.dto.common.Type;
 import org.sopt.www.firstspringboot.dto.request.PostCreateRequest;
 import org.sopt.www.firstspringboot.dto.request.PostUpdateRequest;
 import org.sopt.www.firstspringboot.dto.response.PostGetResponse;
 import org.sopt.www.firstspringboot.service.PostService;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
@@ -19,30 +20,32 @@ public class PostController {
     private final PostService postService;
 
     @GetMapping("{postId}")
-    public ResponseEntity<PostGetResponse> getPostById(@PathVariable Long postId) {
-        return ResponseEntity.ok(postService.getById(postId));
+    public CustomResponse<PostGetResponse> getPostById(@PathVariable Long postId) {
+        return CustomResponse.hasData(Type.GET_POST_SUCCESS, postService.getById(postId));
     }
 
     @GetMapping
-    public ResponseEntity<List<PostGetResponse>> getPosts(@RequestHeader(CUSTOM_AUTH_ID) Long memberId) {
-        return ResponseEntity.ok(postService.getPosts(memberId));
+    public CustomResponse<List<PostGetResponse>> getPosts(@RequestHeader(CUSTOM_AUTH_ID) Long memberId) {
+        return CustomResponse.hasData(Type.GET_POST_LIST_SUCCESS, postService.getPosts(memberId));
     }
 
     @PostMapping
-    public ResponseEntity<Void> createPost(@RequestHeader(CUSTOM_AUTH_ID) Long memberId, @RequestBody PostCreateRequest request) {
-        URI location = URI.create("/api/post/" + postService.create(request, memberId));
-        return ResponseEntity.created(location).build();
+    public CustomResponse<PostGetResponse> createPost(@RequestHeader(CUSTOM_AUTH_ID) Long memberId, @RequestBody PostCreateRequest request) {
+        String stringId = postService.create(request, memberId);
+        URI location = URI.create(stringId);
+        Long postId = Long.parseLong(stringId);
+        return CustomResponse.hasData(Type.CREATE_POST_SUCCESS, postService.getById(postId));
     }
 
     @PatchMapping("{postId}")
-    public ResponseEntity<Void> updatePost(@PathVariable Long postId, @RequestBody PostUpdateRequest request) {
+    public CustomResponse<PostGetResponse> updatePost(@PathVariable Long postId, @RequestBody PostUpdateRequest request) {
         postService.editContent(postId, request);
-        return ResponseEntity.noContent().build();
+        return CustomResponse.hasData(Type.UPDATE_POST_SUCCESS, postService.getById(postId));
     }
 
     @DeleteMapping("{postId}")
-    public ResponseEntity<Void> deletePost(@PathVariable Long postId) {
+    public CustomResponse deletePost(@PathVariable Long postId) {
         postService.deleteById(postId);
-        return ResponseEntity.noContent().build();
+        return CustomResponse.noData(Type.DELETE_POST_SUCCESS);
     }
 }
