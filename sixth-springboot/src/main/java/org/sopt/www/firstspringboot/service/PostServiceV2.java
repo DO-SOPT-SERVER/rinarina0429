@@ -2,6 +2,8 @@ package org.sopt.www.firstspringboot.service;
 
 import lombok.RequiredArgsConstructor;
 import org.sopt.www.firstspringboot.dto.request.PostCreateRequest;
+import org.sopt.www.firstspringboot.dto.response.PostGetResponse;
+import org.sopt.www.firstspringboot.entity.Category;
 import org.sopt.www.firstspringboot.entity.Member;
 import org.sopt.www.firstspringboot.entity.Post;
 import org.sopt.www.firstspringboot.exception.model.BusinessException;
@@ -23,6 +25,7 @@ public class PostServiceV2 {
     private final MemberJpaRepository memberJpaRepository;
     private final PostJpaRepository postJpaRepository;
     private final S3Service s3Service;
+    private final CategoryService categoryService;
 
     @Transactional
     public String createV2(PostCreateRequest request, MultipartFile image, Long memberId) {
@@ -52,5 +55,19 @@ public class PostServiceV2 {
         } catch (IOException | RuntimeException e) {
             throw new RuntimeException(e.getMessage());
         }
+    }
+
+    public PostGetResponse getByIdV2(Long postId){
+        try{
+            Post post = postJpaRepository.findById(postId)
+                    .orElseThrow(() -> new BusinessException("해당하는 게시글이 없습니다."));
+            return PostGetResponse.of(post, getCategoryByPost(post));
+        } catch (RuntimeException e) {
+            throw new RuntimeException(e.getMessage());
+        }
+    }
+
+    private Category getCategoryByPost(Post post) {
+        return categoryService.getByCategoryId(post.getCategoryId());
     }
 }

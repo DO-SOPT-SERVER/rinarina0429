@@ -7,10 +7,8 @@ import org.sopt.www.firstspringboot.dto.request.PostCreateRequest;
 import org.sopt.www.firstspringboot.dto.request.PostUpdateRequest;
 import org.sopt.www.firstspringboot.dto.response.PostGetResponse;
 import org.sopt.www.firstspringboot.service.PostService;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.net.URI;
 import java.security.Principal;
 import java.util.List;
 
@@ -31,18 +29,12 @@ public class PostController {
         return CustomResponse.hasData(Type.GET_POST_LIST_SUCCESS, postService.getPosts(memberId));
     }
 
-    //    @PostMapping
-//    public CustomResponse<PostGetResponse> createPost(@RequestHeader(CUSTOM_AUTH_ID) Long memberId, @RequestBody PostCreateRequest request) {
-//        String stringId = postService.create(request, memberId);
-//        URI location = URI.create(stringId);
-//        Long postId = Long.parseLong(stringId);
-//        return CustomResponse.hasData(Type.CREATE_POST_SUCCESS, postService.getById(postId));
-//    }
     @PostMapping
-    public ResponseEntity<Void> createPost(@RequestBody PostCreateRequest request, Principal principal) {
+    public CustomResponse<PostGetResponse> createPost(@RequestBody PostCreateRequest request, Principal principal) {
         Long memberId = Long.valueOf(principal.getName());
-        URI location = URI.create("/api/posts/" + postService.create(request, memberId));
-        return ResponseEntity.created(location).build();
+        String stringId = postService.create(request, memberId);
+        Long postId = Long.parseLong(stringId);
+        return CustomResponse.hasData(Type.CREATE_POST_SUCCESS, postService.getById(postId));
     }
 
     @PatchMapping("{postId}")

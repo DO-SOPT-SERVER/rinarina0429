@@ -12,7 +12,6 @@ import org.sopt.www.firstspringboot.service.MemberService;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
-import java.net.URI;
 import java.util.List;
 
 @RestController
@@ -43,7 +42,6 @@ public class MemberController {
     @PostMapping
     public CustomResponse<MemberGetResponse> createMember(@RequestBody MemberCreateRequest request) {
         String stringId = memberService.create(request);
-        URI location = URI.create(stringId);
         Long memberId = Long.parseLong(stringId);
         return CustomResponse.hasData(Type.CREATE_MEMBER_SUCCESS, memberService.getMemberByIdV3(memberId));
     }
